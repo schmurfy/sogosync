@@ -437,7 +437,8 @@ class carddav_backend
 		switch($result['http_code'])
 		{
 			case 201:
-				return $vcard_id;
+				$parts = split('/', $result['response']);
+				return $parts[count($parts) - 1];
 			break;
 
 			default:
