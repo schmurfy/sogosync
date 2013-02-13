@@ -685,14 +685,31 @@
 				{
 					for ($i=0;$i<sizeof($value); $i++)
 					{
-						$card[$key][$value[$i]['Type'][0]] = $value[$i]['Value'];
+						$types = $value[$i]['Type'];
+						sort($types);
+						ZLog::Write(LOGLEVEL_DEBUG, "types: " . print_r($types, true));
+						$types = array_filter($types, function($var) {
+							return !in_array(strtoupper($var), array("PREF", "INTERNET", "VOICE"));
+						});
+						
+						$type = array_shift($types);
+						
+						ZLog::Write(LOGLEVEL_DEBUG, "types filtered: " . print_r($type, true));
+						
+						if( isset($card[$key][$type]) ){
+							$type = $type . "2";
+						}
+						
+						$card[$key][$type] = $value[$i]['Value'];
 					}
 				}
 				elseif ($key == "adr" )
 				{
 					for ($i=0;$i<sizeof($value); $i++)
 					{
-						$card[$key][$value[$i]['Type'][0]] = $value[$i];
+						sort($value[$i]['Type']);
+						$type = implode(";", $value[$i]['Type']);
+						$card[$key][$type] = $value[$i];
 					}
 				}
 				else

@@ -429,12 +429,16 @@ class BackendCardDAV extends BackendDiff {
 			'fn' => 'fileas',
 			'n' => array('LastName' => 'lastname', 'FirstName' => 'firstname'),
 			//'nickname' => 'nickname', // handle manually
-			'tel' => array('home' => 'homephonenumber',
+			'tel' => array(
+						'home' => 'homephonenumber',
+						'home2' => 'home2phonenumber',
 						'cell' => 'mobilephonenumber',
 						'work' => 'businessphonenumber',
+						'work2' => 'business2phonenumber',
 						'fax' => 'businessfaxnumber',
-						'pager' => 'pagernumber'),
-			'email' => array('work' => 'email1address', 'home' => 'email2address'),
+						'pager' => 'pagernumber'
+					),
+			'email' => array('work' => 'email1address', 'home' => 'email2address', 'other' => 'email3address'),
 			'url' => array('work' => 'webpage', 'home' => 'webpage'), // does not exist in ActiveSync
 			'bday' => 'birthday',
 			//'role' => 'jobtitle', iOS take it as 'TITLE' Does not make sense??
@@ -672,22 +676,33 @@ class BackendCardDAV extends BackendDiff {
 		ZLog::Write(LOGLEVEL_DEBUG, sprintf("BackendCardDAV->_ParseASCardToVCard()"));
 
 		$mapping = array(
-			'fileas' => 'FN',
-			'lastname;firstname' => 'N',
-			'nickname' => 'NICKNAME',
-			'homephonenumber' => 'TEL;TYPE=home',
-			'mobilephonenumber' => 'TEL;TYPE=cell',
-			'businessphonenumber' => 'TEL;TYPE=work',
-			'businessfaxnumber' => 'TEL;TYPE=fax',
-			'pagernumber' => 'TEL;TYPE=pager',
-			'email1address' => 'EMAIL;TYPE=work',
-			'email2address' => 'EMAIL;TYPE=home',
-			//'webpage' => 'URL;TYPE=home', does not exist in ActiveSync
-			'webpage' => 'URL;TYPE=work',
-			//'birthday' => 'BDAY', // handle separetly
-			//'jobtitle' => 'ROLE', // iOS take it as 'TITLE' Does not make sense??
-			'jobtitle' => 'TITLE',
-			'body' => 'NOTE',
+			// 'fileas'                 => 'FN',
+			'lastname;firstname'     => 'N',
+			'title'									 => 'TITLE',
+			// 'nickname'               => 'NICKNAME',
+			'mobilephonenumber'      => 'TEL;TYPE=VOICE;TYPE=CELL',
+			'otherphonenumber'       => 'TEL;TYPE=VOICE;TYPE=OTHER',
+			
+			'homephonenumber'        => 'TEL;TYPE=VOICE;TYPE=HOME',
+			'home2phonenumber'       => 'item1.TEL;TYPE=VOICE;TYPE=HOME',
+			
+			'businessphonenumber'    => 'TEL;TYPE=VOICE;TYPE=WORK',
+			'business2phonenumber'   => 'item1.TEL;TYPE=VOICE;TYPE=WORK',
+			
+			'businessfaxnumber'      => 'TEL;TYPE=FAX;TYPE=WORK',
+			'homefaxnumber'          => 'TEL;TYPE=FAX;TYPE=HOME',
+			
+			// 'pagernumber'            => 'TEL;TYPE=pager',
+			
+			'email1address'          => 'EMAIL;TYPE=INTERNET;TYPE=WORK',
+			'email2address'          => 'EMAIL;TYPE=INTERNET;TYPE=HOME',
+			'email3address'          => 'EMAIL;TYPE=INTERNET;TYPE=OTHER',
+			//'webpage'              => 'URL;TYPE=home', does not exist in ActiveSync
+			// 'webpage'                => 'URL;TYPE=work',
+			//'birthday'             => 'BDAY', // handle separetly
+			//'jobtitle'             => 'ROLE', // iOS take it as 'TITLE' Does not make sense??
+			// 'jobtitle'               => 'TITLE',
+			'body'                   => 'NOTE',
 			'companyname;department' => 'ORG',
 			';;businessstreet;businesscity;businessstate;businesspostalcode;businesscountry' => 'ADR;TYPE=work',
 			';;homestreet;homecity;homestate;homepostalcode;homecountry' => 'ADR;TYPE=home',
