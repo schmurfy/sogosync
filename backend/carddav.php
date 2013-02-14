@@ -556,24 +556,24 @@ class BackendCardDAV extends BackendDiff {
 			'FN' => 'fileas',
 			'N' => 'lastname;firstname',
 			'NICKNAME' => 'nickname', // Only one in active Sync
-			'TEL;TYPE=home' => 'homephonenumber',
-			'TEL;TYPE=cell' => 'mobilephonenumber',
-			'TEL;TYPE=work' => 'businessphonenumber',
-			'TEL;TYPE=fax' => 'businessfaxnumber',
-			'TEL;TYPE=pager' => 'pagernumber',
-			'EMAIL;TYPE=work' => 'email1address',
-			'EMAIL;TYPE=home' => 'email2address',
-			'URL;TYPE=home' => 'webpage', // does not exist in ActiveSync
-			'URL;TYPE=work' => 'webpage',
+			'TEL;type=home' => 'homephonenumber',
+			'TEL;type=cell' => 'mobilephonenumber',
+			'TEL;type=work' => 'businessphonenumber',
+			'TEL;type=fax' => 'businessfaxnumber',
+			'TEL;type=pager' => 'pagernumber',
+			'EMAIL;type=work' => 'email1address',
+			'EMAIL;type=home' => 'email2address',
+			'URL;type=home' => 'webpage', // does not exist in ActiveSync
+			'URL;type=work' => 'webpage',
 			'BDAY' => 'birthday',
 			// 'ROLE' => 'jobtitle', iOS take it as 'TITLE' Does not make sense?
 			'TITLE' => 'jobtitle',
 			'NOTE' => 'body',
 			'ORG' => 'companyname;department',
-			'ADR;TYPE=work' => ';;businessstreet;businesscity;businessstate;businesspostalcode;businesscountry',
-			'ADR;TYPE=home' => ';;homestreet;homecity;homestate;homepostalcode;homecountry',
-			// 'PHOTO;VALUE=BINARY;TYPE=JPEG;ENCODING=B' => 'picture', // Need improve parsing waiting on vCard parser to suport photo
-			'PHOTO;ENCODING=BASE64;TYPE=JPEG' => 'picture',
+			'ADR;type=work' => ';;businessstreet;businesscity;businessstate;businesspostalcode;businesscountry',
+			'ADR;type=home' => ';;homestreet;homecity;homestate;homepostalcode;homecountry',
+			// 'PHOTO;VALUE=BINARY;type=JPEG;ENCODING=B' => 'picture', // Need improve parsing waiting on vCard parser to suport photo
+			'PHOTO;ENCODING=BASE64;type=JPEG' => 'picture',
 			'CATEGORIES' => 'categories', // Can not create categorie on iOS, test with hotmail.com and no sync or view of categories?
 			'X-AIM' => 'imaddress',
 		);
@@ -680,32 +680,32 @@ class BackendCardDAV extends BackendDiff {
 			'lastname;firstname'     => 'N',
 			'title'									 => 'TITLE',
 			// 'nickname'               => 'NICKNAME',
-			'mobilephonenumber'      => 'TEL;TYPE=VOICE;TYPE=CELL',
-			'otherphonenumber'       => 'TEL;TYPE=VOICE;TYPE=OTHER',
+			'mobilephonenumber'      => 'TEL;type=VOICE;type=CELL',
+			'otherphonenumber'       => 'TEL;type=VOICE;type=OTHER',
 			
-			'homephonenumber'        => 'TEL;TYPE=VOICE;TYPE=HOME',
-			'home2phonenumber'       => 'item1.TEL;TYPE=VOICE;TYPE=HOME',
+			'homephonenumber'        => 'TEL;type=VOICE;type=HOME',
+			'home2phonenumber'       => 'item1.TEL;type=VOICE;type=HOME',
 			
-			'businessphonenumber'    => 'TEL;TYPE=VOICE;TYPE=WORK',
-			'business2phonenumber'   => 'item1.TEL;TYPE=VOICE;TYPE=WORK',
+			'businessphonenumber'    => 'TEL;type=VOICE;type=WORK',
+			'business2phonenumber'   => 'item1.TEL;type=VOICE;type=WORK',
 			
-			'businessfaxnumber'      => 'TEL;TYPE=FAX;TYPE=WORK',
-			'homefaxnumber'          => 'TEL;TYPE=FAX;TYPE=HOME',
+			'businessfaxnumber'      => 'TEL;type=FAX;type=WORK',
+			'homefaxnumber'          => 'TEL;type=FAX;type=HOME',
 			
-			// 'pagernumber'            => 'TEL;TYPE=pager',
+			// 'pagernumber'            => 'TEL;type=pager',
 			
-			'email1address'          => 'EMAIL;TYPE=INTERNET;TYPE=WORK',
-			'email2address'          => 'EMAIL;TYPE=INTERNET;TYPE=HOME',
-			'email3address'          => 'EMAIL;TYPE=INTERNET;TYPE=OTHER',
-			//'webpage'              => 'URL;TYPE=home', does not exist in ActiveSync
-			// 'webpage'                => 'URL;TYPE=work',
+			'email1address'          => 'EMAIL;type=INTERNET;type=WORK',
+			'email2address'          => 'EMAIL;type=INTERNET;type=HOME',
+			'email3address'          => 'EMAIL;type=INTERNET;type=OTHER',
+			//'webpage'              => 'URL;type=home', does not exist in ActiveSync
+			// 'webpage'                => 'URL;type=work',
 			//'birthday'             => 'BDAY', // handle separetly
 			//'jobtitle'             => 'ROLE', // iOS take it as 'TITLE' Does not make sense??
 			// 'jobtitle'               => 'TITLE',
 			'body'                   => 'NOTE',
 			'companyname;department' => 'ORG',
-			';;businessstreet;businesscity;businessstate;businesspostalcode;businesscountry' => 'ADR;TYPE=work',
-			';;homestreet;homecity;homestate;homepostalcode;homecountry' => 'ADR;TYPE=home',
+			';;businessstreet;businesscity;businessstate;businesspostalcode;businesscountry' => 'ADR;type=work',
+			';;homestreet;homecity;homestate;homepostalcode;homecountry' => 'ADR;type=home',
 			//'picture' => 'PHOTO;BASE64', // handle separetly
 			//'categories' => 'CATEGORIES', // handle separetly, but i am unable to create categories form iOS
 			'imaddress' => 'X-AIM',
@@ -735,7 +735,7 @@ class BackendCardDAV extends BackendDiff {
 		if(!empty($message->picture))
 			// FIXME first line 50 char next one 74
 			// Apparently iOS send the file on BASE64
-			$data .= "PHOTO;ENCODING=BASE64;TYPE=JPEG:".substr(chunk_split($message->picture, 50, "\n "), 0, -1);
+			$data .= "PHOTO;ENCODING=BASE64;type=JPEG:".substr(chunk_split($message->picture, 50, "\n "), 0, -1);
 		if(isset($message->birthday))
 			$data .= "BDAY:".date('Y-m-d', $message->birthday)."\n";
 		$data .= "END:VCARD";
