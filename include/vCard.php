@@ -692,8 +692,9 @@
 							return !in_array(strtoupper($var), array("PREF", "INTERNET", "VOICE"));
 						});
 						
-						$type = array_shift($types);
 						
+						sort($types);
+						$type = join(":", $types);
 						ZLog::Write(LOGLEVEL_DEBUG, "types filtered: " . print_r($type, true));
 						
 						if( isset($card[$key][$type]) ){

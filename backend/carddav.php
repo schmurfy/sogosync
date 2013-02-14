@@ -427,19 +427,28 @@ class BackendCardDAV extends BackendDiff {
 
 		$mapping = array(
 			'fn' => 'fileas',
-			'n' => array('LastName' => 'lastname', 'FirstName' => 'firstname'),
+			'n' => array(
+						'LastName' => 'lastname',
+						'FirstName' => 'firstname'
+					),
 			//'nickname' => 'nickname', // handle manually
 			'tel' => array(
 						'home' => 'homephonenumber',
 						'home2' => 'home2phonenumber',
+						'main'  => 'companymainphone',
 						'cell' => 'mobilephonenumber',
 						'work' => 'businessphonenumber',
 						'work2' => 'business2phonenumber',
-						'fax' => 'businessfaxnumber',
+						'fax:home' => 'homefaxnumber',
+						'fax:work' => 'businessfaxnumber',
 						'pager' => 'pagernumber'
 					),
-			'email' => array('work' => 'email1address', 'home' => 'email2address', 'other' => 'email3address'),
-			'url' => array('work' => 'webpage', 'home' => 'webpage'), // does not exist in ActiveSync
+			'email' => array(
+						'work' => 'email1address',
+						'home' => 'email2address',
+						'other' => 'email3address'
+					),
+			// 'url' => array('work' => 'webpage', 'home' => 'webpage'), // does not exist in ActiveSync
 			'bday' => 'birthday',
 			//'role' => 'jobtitle', iOS take it as 'TITLE' Does not make sense??
 			'title' => 'jobtitle',
@@ -689,6 +698,8 @@ class BackendCardDAV extends BackendDiff {
 			'businessphonenumber'    => 'TEL;type=VOICE;type=WORK',
 			'business2phonenumber'   => 'item1.TEL;type=VOICE;type=WORK',
 			
+			'companymainphone'			 => 'TEL;type=VOICE;type=MAIN',
+			
 			'businessfaxnumber'      => 'TEL;type=FAX;type=WORK',
 			'homefaxnumber'          => 'TEL;type=FAX;type=HOME',
 			
@@ -708,7 +719,7 @@ class BackendCardDAV extends BackendDiff {
 			';;homestreet;homecity;homestate;homepostalcode;homecountry' => 'ADR;type=home',
 			//'picture' => 'PHOTO;BASE64', // handle separetly
 			//'categories' => 'CATEGORIES', // handle separetly, but i am unable to create categories form iOS
-			'imaddress' => 'X-AIM',
+			// 'imaddress' => 'X-AIM',
 		);
 
 		$data = "BEGIN:VCARD\n";
