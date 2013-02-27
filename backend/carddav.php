@@ -451,7 +451,7 @@ class BackendCardDAV extends BackendDiff {
 			// 'url' => array('work' => 'webpage', 'home' => 'webpage'), // does not exist in ActiveSync
 			'bday' => 'birthday',
 			//'role' => 'jobtitle', iOS take it as 'TITLE' Does not make sense??
-			'title' => 'jobtitle',
+			'title' => 'title',
 			'note' => 'body',
 			'org' => array('Name' => 'companyname', 'Unit1' => 'department'),
 			'adr' => array ('work' =>
